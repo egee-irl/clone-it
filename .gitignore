@@ -10,14 +10,16 @@
 *.cache
 *.suo
 *FileListAbsolute.txt
-# Include dlls if they’re in the NuGet packages directory
+####################
+# Unwanted Dll's   #
+####################
 !/packages/*/lib/*.dll
 !/packages/*/lib/*/*.dll
-# Include dlls if they're in the CommonReferences directory
 !*CommonReferences/*.dll
 ###############
 # Directories #
 ###############
+.idea/*
 bin/
 obj/
 TestResults/
@@ -30,9 +32,9 @@ TestResults/
 ######################
 *.log
 *.sqlite
-######################
+########################
 # OS & generated files #
-######################
+########################
 .DS_Store
 ehthumbs.db
 Icon?
