@@ -28,11 +28,16 @@ namespace Cloneit
 
         public async Task CloneRepos(string repoName, string branchName)
         {
+            // /tmp/ is the default path. Oblviously this doesn't work on Windows (yet)...
             if (_path == "")
                 _path = "/tmp/";
             var path = @_path + repoName + ".zip";
+
+            // We use Octokit to authenticate and access to the repo
             var repo = await _client.Repository.Get(_owner, repoName);
             var downloadUrl = repo.SvnUrl + "/archive/" + branchName + ".zip";
+
+            // The archive scraping happens with HttpClient
             using (var http = new HttpClient())
             {
                 CredentialHelper(http);
@@ -55,6 +60,7 @@ namespace Cloneit
                 Console.WriteLine("WARNING: " + e.Message);
             }
         }
+        // Since we can't pass authenticate from Octokit to the HttpClient, we have to auth a 2nd time 
         private void CredentialHelper(HttpClient http)
         {
             var credentials = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}:", _token);
