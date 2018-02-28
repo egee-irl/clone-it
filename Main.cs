@@ -7,11 +7,17 @@ namespace Cloneit
 {
     internal static class Program
     {
-        private static void Main() => MainAsync().GetAwaiter().GetResult();
+        private static void Main(string[] args) => MainAsync(args).GetAwaiter().GetResult();
 
-        private static async Task MainAsync()
+        private static async Task MainAsync(string[] args)
         {
-            var json = JObject.Parse(File.ReadAllText(@"appsettings.json"));
+            if (args.Length == 0)
+            {
+                Console.WriteLine("You must pass a valid json blob as an arguement!");
+                Environment.Exit(1);
+            }
+                
+            var json = JObject.Parse(File.ReadAllText(args[0]));
             var repositories = json.SelectToken("repositories");
 
             var rekal = new Rekal(json);
