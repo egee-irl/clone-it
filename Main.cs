@@ -1,12 +1,7 @@
 ﻿using System;
-using Octokit;
 using System.IO;
-using System.Linq;
-using System.Net.Http;
 using Newtonsoft.Json.Linq;
-using System.IO.Compression;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace Cloneit
 {
