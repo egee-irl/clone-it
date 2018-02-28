@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clone-it", "clone-it.csproj", "{F8082662-D916-4D5E-9D2C-8C800DA44ABB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rekal", "rekal.csproj", "{F8082662-D916-4D5E-9D2C-8C800DA44ABB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
