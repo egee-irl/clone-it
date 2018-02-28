@@ -36,7 +36,7 @@ namespace cloneit
                 await CloneRepos(repo.name.ToString(), repo.branch.ToString());
             }
 
-            Console.WriteLine("Done.");
+            Console.WriteLine("All done. Thank you for choosing Rekal. 👍");
         }
 
         private static void CredentialHelper(HttpClient http)
@@ -61,11 +61,10 @@ namespace cloneit
             {
                 ZipFile.ExtractToDirectory(path, "/tmp/");
             }
-            catch 
+            catch (IOException e)
             {
-                // System.IO.IOException: The file '/tmp/egeeio-master/.eslintrc.json' already exists.
+                Console.WriteLine("WARNING: " + e.Message);
             }
-            
         }
     }
 }
