@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Cloneit
 {
-    class Program
+    internal static class Program
     {
         private static void Main() => MainAsync().GetAwaiter().GetResult();
 

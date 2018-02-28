@@ -10,19 +10,19 @@ namespace Cloneit
 {
     public class Rekal
     {
-        GitHubClient _client;
-        String _username;
-        String _owner;        
-        String _token;
-        String _path;
-        public Rekal(JObject json)
+        private readonly GitHubClient _client;
+        private readonly string _owner;
+        private readonly string _token;
+        private string _path;
+        public Rekal(JToken json)
         {
+            var username = json.SelectToken("username").ToString();
+            
             _token = Environment.GetEnvironmentVariable("GIT_TOKEN");
-            _username = json.SelectToken("username").ToString();
             _owner = json.SelectToken("owner").ToString();
             _path = json.SelectToken("path").ToString();
 
-            _client = new GitHubClient(new ProductHeaderValue(_username));
+            _client = new GitHubClient(new ProductHeaderValue(username));
             _client.Credentials = new Credentials(_token);
         }
 
