@@ -22,13 +22,11 @@ namespace cloneit
             _owner = json.SelectToken("username").ToString();
             _client = new GitHubClient(new ProductHeaderValue(_owner));
 
-            var repos = json.SelectToken("repos");
-
-            var branchName = "master";
+            var repositories = json.SelectToken("repositories");
             
-            foreach (string repoName in repos)
+            foreach (dynamic repo in repositories)
             {
-                await CloneRepos(repoName, branchName);
+                await CloneRepos(repo.name.ToString(), repo.branch.ToString());
             }
 
             Console.WriteLine("Done.");
@@ -45,8 +43,15 @@ namespace cloneit
                 var contents = http.GetByteArrayAsync(downloadUrl).Result;
                 System.IO.File.WriteAllBytes(path, contents);
             }
-
-            ZipFile.ExtractToDirectory(path, "/tmp/");
+            try
+            {
+                ZipFile.ExtractToDirectory(path, "/tmp/");
+            }
+            catch
+            {
+                // System.IO.IOException: The file '/tmp/egeeio-master/.eslintrc.json' already exists.
+            }
+            
         }
     }
 }
