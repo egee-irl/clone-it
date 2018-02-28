@@ -1,9 +1,11 @@
 ﻿using System;
 using Octokit;
+using System.IO;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 using System.IO.Compression;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace cloneit
 {
@@ -11,26 +13,28 @@ namespace cloneit
     {
         static GitHubClient _client;
         static String _owner;
-        private static void Main()
+
+        private static void Main() => MainAsync().GetAwaiter().GetResult();
+
+        private static async Task MainAsync()
         {
-            _owner = "egee-irl";
+            var json = JObject.Parse(File.ReadAllText(@"appsettings.json"));
+            _owner = json.SelectToken("username").ToString();
             _client = new GitHubClient(new ProductHeaderValue(_owner));
 
-            var repos = new string[]{
-                "egeeio",
-                "refbot-csharp"};
+            var repos = json.SelectToken("repos");
 
             var branchName = "master";
             
             foreach (string repoName in repos)
             {
-                CloneRepos(repoName, branchName);
+                await CloneRepos(repoName, branchName);
             }
 
             Console.WriteLine("Done.");
         }
 
-        private static async void CloneRepos(string repoName, string branchName)
+        private static async Task CloneRepos(string repoName, string branchName)
         {
             var path = @"/tmp/" + repoName + ".zip";
             var repo = await _client.Repository.Get(_owner, repoName);
