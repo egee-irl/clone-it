@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 
@@ -22,12 +23,8 @@ namespace Cloneit
             var repositories = json.SelectToken("repositories");
 
             var rekal = new Rekal(json);
-            
-            // Dynamic works here because laziness and the json blob is a known quantity
-            foreach (dynamic repo in repositories)
-            {
-                await rekal.CloneRepos(repo.name.ToString(), repo.branch.ToString());
-            }
+
+            await Task.WhenAll(repositories.Cast<JObject>().Select(repo => rekal.CloneRepos(repo["name"].ToString(), repo["branch"].ToString())).ToArray());
 
             Console.WriteLine("All done. Thank you for choosing Rekal. 👍");
         }
